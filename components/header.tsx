@@ -3,12 +3,33 @@
 import * as React from "react";
 import Link from "next/link";
 import { CircleUser, ChevronDown } from "lucide-react";
+import { AiSearchInput } from "./ai-search-input";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 import { cn } from "../lib/utils";
-import { AiSearchInput } from "./ai-search-input";
 
-const Header = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
-  ({ className, ...props }, ref) => {
+// Define custom props for Header extending standard HTML attributes
+interface CustomHeaderProps extends React.HTMLAttributes<HTMLElement> {
+  aiSearchPlaceholder?: string;
+  onAiSearchSparkleClick?: () => void;
+  aiSearchSparkleVariant?: 'inline' | 'button' | 'none';
+  aiShowSearchIcon?: boolean;
+  rightContentType?: 'search' | 'sparkleButton';
+  onSparkleButtonClick?: () => void;
+}
+
+const Header = React.forwardRef<HTMLElement, CustomHeaderProps>(
+  ({
+    className,
+    aiSearchPlaceholder,
+    onAiSearchSparkleClick,
+    aiSearchSparkleVariant = 'inline',
+    aiShowSearchIcon = true,
+    rightContentType = 'search',
+    onSparkleButtonClick,
+    ...props
+  }, ref) => {
     // Placeholder nav items from image
     const utilityNav = [
       { name: "Customer Service", href: "#" },
@@ -67,15 +88,27 @@ const Header = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
             ))}
           </nav>
 
-          {/* AI Search Input */}
-          <div className="w-full max-w-xs">
-            <AiSearchInput
-              placeholder="How can we help?"
-              sparkleIcon="inline" // Represents the chat icon position
-              showSearchIcon={true}
-              // Note: To show the actual chat icon, you'd modify AiSearchInput
-              // to accept an icon component prop or use MessageSquare directly.
-            />
+          {/* Right Content: Conditional Rendering */}
+          <div className="w-full max-w-xs flex justify-end"> {/* Ensure container takes space */} 
+            {rightContentType === 'search' && (
+              <AiSearchInput
+                placeholder={aiSearchPlaceholder || "How can we help?"}
+                sparkleIcon={aiSearchSparkleVariant}
+                showSearchIcon={aiShowSearchIcon}
+                onSparkleClick={onAiSearchSparkleClick}
+                className="w-full" // Ensure input takes full width of container
+              />
+            )}
+            {rightContentType === 'sparkleButton' && (
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className="rounded-full" // Make the button round
+                onClick={onSparkleButtonClick} // Use the new handler
+              >
+                <Image src="/sparkle.png" alt="AI Sparkle" width={20} height={20} />
+              </Button>
+            )}
           </div>
         </div>
       </header>
