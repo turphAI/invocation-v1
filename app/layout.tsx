@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Metadata } from "next";
+// import type { Metadata } from "next";
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import {
@@ -11,7 +11,7 @@ import {
   // Triangle,
   // Home as HomeIcon,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 import "./globals.css";
 import { LayoutClientWrapper } from "@/components/layout-client-wrapper";
 

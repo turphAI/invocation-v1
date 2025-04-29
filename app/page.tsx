@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import Image from "next/image";
+// import Image from "next/image";
 import { AiSearchInput } from "@/components/ai-search-input";
 import { Header } from "@/components/header";
 

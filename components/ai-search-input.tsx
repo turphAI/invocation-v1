@@ -1,14 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { Search, Sparkles } from "lucide-react"; // Using lucide Sparkles for now, replace if using PNG
-import Image from "next/image"; // Keep if using PNG
+import { type InputHTMLAttributes } from "react";
+import { Search } from "lucide-react";
+import Image from "next/image";
 
 import { cn } from "@/lib/utils";
-import { Input, type InputProps } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-export interface AiSearchInputProps extends Omit<InputProps, 'prefix' | 'suffix'> {
+export interface AiSearchInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'prefix' | 'suffix'> {
   showSearchIcon?: boolean;
   sparkleIcon?: 'inline' | 'button' | 'none';
   onSparkleClick?: () => void; // Optional handler for sparkle button/icon

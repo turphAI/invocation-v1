@@ -2,14 +2,12 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { CircleUser, ChevronDown, MessageSquare } from "lucide-react"; // Using MessageSquare for chat icon placeholder
+import { CircleUser, ChevronDown } from "lucide-react";
 
-import { cn } from "../lib/utils"; // Relative path from components/ to lib/
-import { AiSearchInput } from "./ai-search-input"; // Relative path within components/
+import { cn } from "../lib/utils";
+import { AiSearchInput } from "./ai-search-input";
 
-export interface HeaderProps extends React.HTMLAttributes<HTMLElement> {}
-
-const Header = React.forwardRef<HTMLElement, HeaderProps>(
+const Header = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
   ({ className, ...props }, ref) => {
     // Placeholder nav items from image
     const utilityNav = [
