@@ -1,7 +1,6 @@
 "use client"; // Make this a client component
 
 import React, { useState } from 'react'; // Import useState
-import Link from 'next/link'; // Import Link
 import { Header } from "@/components/header"; // Adjust path if needed
 import { AiSearchInput } from "@/components/ai-search-input"; // Import AiSearchInput
 import { cn } from "@/lib/utils"; // Import cn for conditional classes
@@ -164,13 +163,12 @@ export default function Option4Page() {
               <div className="space-y-4">
                 {/* Answer Section */}
                 <div className={cn(
-                  "p-4 border rounded-md bg-blue-50 transition-all duration-300 ease-in-out overflow-y-auto", // Added overflow
+                  "p-4 border rounded-md bg-blue-50 transition-all duration-300 ease-in-out overflow-y-auto",
                   dynamicHeights.answer
                 )}>
-                   <h5 className="font-semibold mb-2 text-sm">Answer</h5> {/* Added title */}
-                   {/* Simulate content for the example query */}
+                   <h5 className="font-semibold mb-2 text-sm">Answer</h5>
                    {inputValue.toLowerCase().includes("rmd") && inputValue.length > 30 && (
-                     <p className="mt-2 text-sm">Based on current rules, RMDs generally start at age 73. Since you are 61, you likely don't need to take them yet. Consult a financial advisor for specifics.</p>
+                     <p className="mt-2 text-sm">Based on current rules, RMDs generally start at age 73. Since you are 61, you likely don&apos;t need to take them yet. Consult a financial advisor for specifics.</p>
                   )}
                 </div>
                 {/* Wayfinding Section */}
