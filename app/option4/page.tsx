@@ -85,41 +85,54 @@ export default function Option4Page() {
     "Ask: Explain inherited IRA RMD rules.",
   ];
 
-  // Function to get dynamic properties (heights and link counts)
+  // Answer Snippets (Keep short/medium as strings)
+  const answerSnippets = {
+    short: "RMDs usually start later in life.",
+    medium: "Based on current rules, RMDs generally start at age 73. Since you are 61, you likely don&apos;t need to take them yet.",
+    // We'll handle 'full' directly in JSX now
+  };
+
+  // Updated Function - removed answer height calculation
   const getDynamicProperties = (length: number): {
-    heights: { answer: string; wayfinding: string; conversation: string };
+    heights: { wayfinding: string; conversation: string }; // Answer height removed
     linkCounts: { wayfinding: number; conversation: number };
+    answerContentKey: 'none' | 'short' | 'medium' | 'full';
   } => {
     if (length < 10) {
       return {
-        heights: { answer: 'h-20', wayfinding: 'h-24', conversation: 'h-20' },
+        heights: { wayfinding: 'h-24', conversation: 'h-20' },
         linkCounts: { wayfinding: 1, conversation: 1 },
+        answerContentKey: 'none',
       };
     } else if (length < 20) {
       return {
-        heights: { answer: 'h-28', wayfinding: 'h-28', conversation: 'h-24' },
+        heights: { wayfinding: 'h-28', conversation: 'h-24' },
         linkCounts: { wayfinding: 2, conversation: 2 },
+        answerContentKey: 'short',
       };
     } else if (length < 30) {
       return {
-        heights: { answer: 'h-32', wayfinding: 'h-32', conversation: 'h-28' },
+        heights: { wayfinding: 'h-32', conversation: 'h-28' },
         linkCounts: { wayfinding: 3, conversation: 3 },
+        answerContentKey: 'medium',
       };
     } else if (length < 45) {
       return {
-        heights: { answer: 'h-40', wayfinding: 'h-40', conversation: 'h-32' },
+        heights: { wayfinding: 'h-40', conversation: 'h-32' },
         linkCounts: { wayfinding: 4, conversation: 4 },
+        answerContentKey: 'medium',
       };
     } else {
       return {
-        heights: { answer: 'h-48', wayfinding: 'h-48', conversation: 'h-40' },
+        heights: { wayfinding: 'h-48', conversation: 'h-40' },
         linkCounts: { wayfinding: 5, conversation: 5 },
+        answerContentKey: 'full',
       };
     }
   };
 
-  // Get dynamic properties based on current input length
-  const { heights: dynamicHeights, linkCounts } = getDynamicProperties(inputValue.length);
+  // Get dynamic properties
+  const { heights: dynamicHeights, linkCounts, answerContentKey } = getDynamicProperties(inputValue.length);
 
   return (
     <div className="p-4">
@@ -159,22 +172,34 @@ export default function Option4Page() {
                 <SuggestionCard title={defaultSuggestions.recentSearches.title} links={defaultSuggestions.recentSearches.links} />
               </div>
             ) : (
-              // Dynamic State with weighted heights and accumulating links
+              // Dynamic State
               <div className="space-y-4">
-                {/* Answer Section */}
+                {/* Answer Section - Removed height class */}
                 <div className={cn(
-                  "p-4 border rounded-md bg-blue-50 transition-all duration-300 ease-in-out overflow-y-auto",
-                  dynamicHeights.answer
+                  "p-4 border rounded-md bg-blue-50 transition-all duration-300 ease-in-out overflow-y-auto"
+                  // Removed: dynamicHeights.answer
                 )}>
-                   <h5 className="font-semibold mb-2 text-sm">Answer</h5>
-                   {inputValue.toLowerCase().includes("rmd") && inputValue.length > 30 && (
-                     <p className="mt-2 text-sm">Based on current rules, RMDs generally start at age 73. Since you are 61, you likely don&apos;t need to take them yet. Consult a financial advisor for specifics.</p>
+                  <h5 className="font-semibold mb-2 text-sm">Answer</h5>
+                  {inputValue.toLowerCase().includes("rmd") && answerContentKey !== 'none' && (
+                    <div className="mt-2 text-sm space-y-2"> {/* Add spacing between paragraphs */} 
+                      {answerContentKey === 'short' && <p>{answerSnippets.short}</p>}
+                      {answerContentKey === 'medium' && <p>{answerSnippets.medium}</p>}
+                      {answerContentKey === 'full' && (
+                        <>
+                          <p>Based on current rules, Required Minimum Distributions (RMDs) from traditional retirement accounts like IRAs and 401(k)s generally must begin at age 73. Since you are 61, it is likely that you do not need to take an RMD at this time.</p>
+                          <p>However, rules can change, and specific circumstances (like inherited accounts) might differ. It is highly recommended to consult a qualified financial advisor for personalized advice regarding your specific situation and to plan effectively for retirement distributions.</p>
+                        </>
+                      )}
+                    </div>
+                  )}
+                  {inputValue.length > 0 && !inputValue.toLowerCase().includes("rmd") && (
+                      <p className="mt-2 text-sm text-muted-foreground italic">Enter query about RMDs to see example answer content...</p>
                   )}
                 </div>
-                {/* Wayfinding Section */}
+                {/* Wayfinding Section (Still uses dynamic height) */}
                 <div className={cn(
                   "p-4 border rounded-md bg-green-50 transition-all duration-300 ease-in-out overflow-y-auto", 
-                  dynamicHeights.wayfinding
+                  dynamicHeights.wayfinding // Keep using calculated height here
                 )}>
                   <h5 className="font-semibold mb-2 text-sm">Wayfinding</h5>
                   <ul className="space-y-1">
@@ -187,10 +212,10 @@ export default function Option4Page() {
                     ))}
                   </ul>
                 </div>
-                {/* Conversation Section */}
+                {/* Conversation Section (Still uses dynamic height) */}
                 <div className={cn(
                   "p-4 border rounded-md bg-yellow-50 transition-all duration-300 ease-in-out overflow-y-auto", 
-                  dynamicHeights.conversation
+                  dynamicHeights.conversation // Keep using calculated height here
                 )}>
                   <h5 className="font-semibold mb-2 text-sm">Conversation</h5>
                   <ul className="space-y-1">
